@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { TodoContext } from "../../contexts/TodoContext";
+
 const initTodo = {
   id: 0,
   title: "",
@@ -9,30 +11,26 @@ const initTodo = {
   complete: 0,
   privacy: 0,
 };
-const TodoAdd = ({ todoList, setTodoList, countId, setCoundId }) => {
+function TodoAdd() {
+  const { addTodo } = useContext(TodoContext);
+  // useState 화면 리랜더링
   const [formData, setFormData] = useState(initTodo);
   const navigate = useNavigate();
 
   const handleChange = e => {
     const { name, value, type, checked } = e.target;
-    console.log(name, value, type, checked);
+    // console.log(name, value, type, checked);
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? (checked ? 1 : 0) : value,
     });
   };
 
-  const postData = () => {
-    const newTodoData = [...todoList, { ...formData, id: countId }];
-    setTodoList(newTodoData);
-    setCoundId(countId++);
-  };
-
   const handleSubmit = e => {
-    // 새로고침 하면 안됨
+    // 새로고침하면 입력중 자료 모두 초기화
     e.preventDefault();
-    postData();
-    alert("내용 추가 완료.");
+    addTodo(formData);
+    alert("내용이 추가되었습니다.");
     navigate(`/todo`);
   };
 
@@ -40,73 +38,75 @@ const TodoAdd = ({ todoList, setTodoList, countId, setCoundId }) => {
     navigate(`/todo`);
   };
 
-  // useEffect 에서 id를 이용해 내용 추출
   useEffect(() => {
     return () => {};
   }, []);
+
   return (
     <div>
-      <h1>TodoAdd</h1>
+      <h1>Todo Add</h1>
       <form onSubmit={e => handleSubmit(e)}>
         <label htmlFor="author">작성자</label>
         <input
           type="text"
           name="author"
           value={formData.author}
-          id="author"
           onChange={e => handleChange(e)}
+          id="author"
         />
         <br />
+
         <label>
           제목
           <input
             type="text"
             name="title"
             value={formData.title}
-            id="title"
             onChange={e => handleChange(e)}
           />
-          <br />
         </label>
-        <label htmlFor="">내용</label>
+
+        <br />
+
+        <label htmlFor="content">내용</label>
         <textarea
           name="content"
-          id="content"
           value={formData.content}
+          id="content"
           onChange={e => handleChange(e)}
-        />
+        ></textarea>
         <br />
-        <label htmlFor="">날자</label>
+        <label htmlFor="date">날짜</label>
         <input
           type="date"
           name="date"
-          id="date"
           value={formData.date}
           onChange={e => handleChange(e)}
+          id="date"
         />
         <br />
-        <label htmlFor="">완료여부</label>
+        <label htmlFor="complete">완료여부</label>
         <input
           type="checkbox"
           name="complete"
-          id="complete"
           // value={formData.complete}
           checked={formData.complete === 1 ? true : false}
           onChange={e => handleChange(e)}
+          id="complete"
         />
         <br />
-        <label htmlFor="">공개여부</label>
+        <label htmlFor="privacy">공개여부</label>
         <input
           type="checkbox"
           name="privacy"
-          id="privacy"
           // value={formData.privacy}
           checked={formData.privacy === 1 ? true : false}
           onChange={e => handleChange(e)}
+          id="privacy"
         />
         <br />
         <div>
-          <button type="submit">수정하기</button>
+          <button type="submit">등록하기</button>
           <button
             type="button"
             onClick={() => {
@@ -119,6 +119,5 @@ const TodoAdd = ({ todoList, setTodoList, countId, setCoundId }) => {
       </form>
     </div>
   );
-};
-
+}
 export default TodoAdd;

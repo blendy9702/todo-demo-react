@@ -1,45 +1,50 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { TODO_MOCK_DATA } from "../../constants/mockdata";
+import { TodoContext } from "../../contexts/TodoContext";
 
-const TodoDetail = ({ todoList, setTodoList }) => {
+function TodoDetail() {
+  const { todoList } = useContext(TodoContext);
   // js 로 패스 이동하기
   const navigate = useNavigate();
-  // SearchParams 를 이용하기
-
-  const [searchParams] = useSearchParams();
+  // SearchParams 를 이용해서 내용 출력
+  const [searchParams, _] = useSearchParams();
   const id = parseInt(searchParams.get("id"));
   const [todo, setTodo] = useState({});
 
   const getTodo = () => {
-    // id를 이영해서 state 에서 필요한 내용을 추출
+    // id 를 이용해서 state 에서 필요로 한 내용 추출
     const findData = todoList.filter(item => item.id === id);
+    // console.log(findData);
     const findTodo = findData[0];
-    // 이후 setTodo에 담아서 화면 리랜더링 출력
+    // console.log(findTodo);
+    // setTodo 에 담고
     setTodo({ ...findTodo });
+    // 화면 리랜더링 출력
   };
 
   const handleClickEdit = () => {
     // Link 말고 js 로 이동하기
-    // Link 는 a 태그로 이동하는 것
+    // Link 는 a태그로 이동하는 것!
     navigate(`/todo/edit/${todo.id}`);
   };
 
   useEffect(() => {
     getTodo();
+    return () => {};
   }, []);
+
   return (
     <div>
       <h1>TodoDetail</h1>
       <div>
-        {/* 작성자 */}
         작성자 : {todo.author}
-        {/* 날자 */}
-        작성자 : {todo.date}
-        {/* 제목 */}
-        작성자 : {todo.title}
-        {/* 내용 */}
-        작성자 : {todo.content}
+        <br />
+        날짜 : {todo.date}
+        <br />
+        제목 : {todo.title}
+        <br />
+        내용: {todo.content}
+        <br />
       </div>
       <div>
         <button
@@ -59,6 +64,5 @@ const TodoDetail = ({ todoList, setTodoList }) => {
       </div>
     </div>
   );
-};
-
+}
 export default TodoDetail;
