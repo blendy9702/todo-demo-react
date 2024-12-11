@@ -4,6 +4,8 @@ import { useCookies } from "react-cookie";
 export const TodoContext = createContext();
 // LocalStorage 여러가지 값이 보관되므로 구분용 key가 필요함.
 const TODO_LS_KEY = "todos";
+const TODO_SESSION_KEY = "todos_session";
+
 const TODO_COOKIE_NAME = "todos_cookie";
 // 예)
 // UserContext.js : const UserContext = createContext();
@@ -25,6 +27,12 @@ export const TodoProvider = ({ children }) => {
     setTodoList(newTodoData);
     // 로컬에 저장함 (합당)
     window.localStorage.setItem(TODO_LS_KEY, JSON.stringify([...newTodoData]));
+    // 세션에 저장함 (웹브라우저 임시 보관)
+    window.sessionStorage.setItem(
+      TODO_SESSION_KEY,
+      JSON.stringify([...newTodoData]),
+    );
+
     // 쿠키에 저장함 (서버연동 보관이 아니라서 비추)
     setCookie(TODO_COOKIE_NAME, newTodoData, {
       path: "/",
@@ -46,6 +54,13 @@ export const TodoProvider = ({ children }) => {
     setTodoList(newList);
     // 로컬삭제
     window.localStorage.setItem(TODO_LS_KEY, JSON.stringify([...newList]));
+
+    // 세션 내용 삭제
+    window.sessionStorage.setItem(
+      TODO_SESSION_KEY,
+      JSON.stringify([...newList]),
+    );
+
     // 쿠키에 저장함 (서버연동 보관이 아니라서 비추)
     setCookie(TODO_COOKIE_NAME, newList, {
       path: "/",
@@ -72,34 +87,46 @@ export const TodoProvider = ({ children }) => {
     localStorage.clear(TODO_LS_KEY);
     removeCookie(TODO_COOKIE_NAME);
     setTodoList([]);
+    // 세션
+    sessionStorage.clear(TODO_SESSION_KEY);
+    removeCookie(TODO_COOKIE_NAME);
+    setTodoList([]);
   };
 
   // Context 가 화면에 출력될때 localStorage 에서 값을 읽어오는데
   // 키는 TODO_LS_KEY 에 담긴 값을 이용해 가져옮.
   useEffect(() => {
     // 로컬 자료 읽기
-    // 웹브라우저 localStorage에 값을 읽어드림
-    const todos = window.localStorage.getItem(TODO_LS_KEY);
-
+    const todos = localStorage.getItem(TODO_LS_KEY);
+    // 세션 자료 읽기
+    const todosSession = sessionStorage.getItem(TODO_SESSION_KEY);
     // 쿠키 읽기
     const todosCookie = cookies[TODO_COOKIE_NAME];
-    // if (todos) {
-    //   // 있을 때
-    //   alert("Key가 Truthy 하네요 :)");
-    //   // 글자를 js 에서 사용할 수 있도록 변환하자
-    //   const datas = JSON.parse(todos);
-    //   setTodoList([...datas]);
-    // } else {
-    //   // 없을 때
-    //   alert("Key가 Falsy 하네요 :(");
-    //   window.localStorage.setItem(TODO_LS_KEY, JSON.stringify(todoList));
-    // }
+    // 로컬 초기화
+    if (todos) {
+      const datas = JSON.parse(todos);
+      setTodoList(datas);
+    } else {
+      localStorage.setItem(TODO_LS_KEY, JSON.stringify(todoList));
+    }
+    // 세션 초기화
+    if (todosSession) {
+      const datas = JSON.parse(todosSession);
+      setTodoList(datas);
+    } else {
+      sessionStorage.setItem(TODO_SESSION_KEY, JSON.stringify(todoList));
+    }
 
+    // 쿠키 초기화
     if (todosCookie) {
       setTodoList(todosCookie);
     } else {
-      setCookie(TODO_COOKIE_NAME, [], { path: "/", maxAge: 1 * 24 * 60 * 60 });
+      setCookie(TODO_COOKIE_NAME, [], {
+        path: "/",
+        maxAge: 1 * 24 * 60 * 60,
+      });
     }
+
     return () => {};
   }, []);
 
@@ -107,14 +134,7 @@ export const TodoProvider = ({ children }) => {
     <TodoContext.Provider
       value={{ todoList, addTodo, deleteTodo, updateTodo, resetTodo }}
     >
-      {/* 컴포넌트를 children으로 주입 받는다. */}
       {children}
     </TodoContext.Provider>
   );
 };
-//  4. Provider 에 value 에 원하는 기능 및 state 르 전달
-
-// 예)
-// export const UserProvider = () => {};
-// export const ThemeProvider = () => {};
-// export const LangProvider = () => {};
