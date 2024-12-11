@@ -1,6 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import { LoginProvider } from "./contexts/LoginContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import { TodoProvider } from "./contexts/TodoContext";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
@@ -14,21 +15,23 @@ function App() {
     <TodoProvider>
       <Router>
         <LoginProvider>
-          <Layout>
-            <Routes>
-              {/* 소개 */}
-              <Route path="/" element={<About />} />
-              {/* Todo 중첩 */}
-              <Route path="/todo">
-                <Route index element={<TodoIndex />}></Route>
-                <Route path="add" element={<TodoAdd />}></Route>
-                <Route path="detail" element={<TodoDetail />}></Route>
-                <Route path="edit/:id" element={<TodoEdit />}></Route>
-              </Route>
-              {/* 잘못된 패스 */}
-              <Route path="*" element={<NotFound />}></Route>
-            </Routes>
-          </Layout>
+          <ThemeProvider>
+            <Layout>
+              <Routes>
+                {/* 소개 */}
+                <Route path="/" element={<About />} />
+                {/* Todo 중첩 */}
+                <Route path="/todo">
+                  <Route index element={<TodoIndex />}></Route>
+                  <Route path="add" element={<TodoAdd />}></Route>
+                  <Route path="detail" element={<TodoDetail />}></Route>
+                  <Route path="edit/:id" element={<TodoEdit />}></Route>
+                </Route>
+                {/* 잘못된 패스 */}
+                <Route path="*" element={<NotFound />}></Route>
+              </Routes>
+            </Layout>
+          </ThemeProvider>
         </LoginProvider>
       </Router>
     </TodoProvider>
