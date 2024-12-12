@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
       <Header>{children}</Header>
       <main>{children}</main>
       <Footer>
-        <p>Copyright 2024. By Hong</p>
+        <p>Copyright 2024. By Lee</p>
       </Footer>
     </div>
   );

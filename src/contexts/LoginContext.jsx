@@ -21,7 +21,6 @@ export const LoginProvider = ({ children }) => {
     // 세션
     sessionStorage.setItem(LS_LOGIN_SS, JSON.stringify(!flag));
     // 쿠키
-    console.log(flag);
     setCookie(LS_LOGIN_COOKIE, !flag, {
       path: "/",
       maxAge: 1 * 24 * 60 * 60,

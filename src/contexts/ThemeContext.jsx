@@ -9,7 +9,7 @@ export const ThemeProvider = ({ children }) => {
   const [cookies, setCookie] = useCookies(THEME_COOKIE);
 
   const handle_theme = () => {
-    const nowTheme = theme === "green" ? "hotpink" : "green";
+    const nowTheme = theme === "gray" ? "hotpink" : "gray";
     setTheme(nowTheme);
     localStorage.setItem("theme", JSON.stringify(nowTheme));
     // 쿠키
@@ -19,7 +19,7 @@ export const ThemeProvider = ({ children }) => {
     });
   };
 
-  const [theme, setTheme] = useState("green");
+  const [theme, setTheme] = useState("gray");
   useEffect(() => {
     // 로컬 읽기
     const nowTheme = localStorage.getItem("Theme");

@@ -9,6 +9,9 @@ import TodoIndex from "./pages/todo/Index";
 import TodoAdd from "./pages/todo/TodoAdd";
 import TodoDetail from "./pages/todo/TodoDetail";
 import TodoEdit from "./pages/todo/TodoEdit";
+import Join from "./pages/member/Join";
+import LoginPage from "./pages/login/LoginPage";
+import Schedule from "./pages/calendar/Schedule";
 
 function App() {
   return (
@@ -20,6 +23,11 @@ function App() {
               <Routes>
                 {/* 소개 */}
                 <Route path="/" element={<About />} />
+                {/* 회원가입 */}
+                <Route path="/member" element={<Join />} />
+                <Route path="/login" element={<LoginPage />} />
+                {/* 달력 */}
+                <Route path="/calendar" element={<Schedule />} />
                 {/* Todo 중첩 */}
                 <Route path="/todo">
                   <Route index element={<TodoIndex />}></Route>
