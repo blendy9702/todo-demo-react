@@ -12,6 +12,7 @@ import TodoEdit from "./pages/todo/TodoEdit";
 import Join from "./pages/member/Join";
 import LoginPage from "./pages/login/LoginPage";
 import Schedule from "./pages/calendar/Schedule";
+import RangeSchedule from "./pages/calendar/RangeSchedule";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 {/* 달력 */}
                 <Route path="/calendar" element={<Schedule />} />
+                <Route path="/range" element={<RangeSchedule />}></Route>
                 {/* Todo 중첩 */}
                 <Route path="/todo">
                   <Route index element={<TodoIndex />}></Route>

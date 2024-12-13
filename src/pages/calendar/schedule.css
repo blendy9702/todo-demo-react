@@ -1,0 +1,73 @@
+.react-calendar {
+  background-color: white;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  border: 1px solid #ffffff;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.schedule-content {
+  font-size: 12px;
+  padding: 2px;
+  margin-top: 2px;
+}
+
+.react-calendar__tile--active {
+  background: hotpink;
+  color: white;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: #e6e6e6;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: hotpink;
+}
+
+.schedule-item {
+  background-color: mediumpurple;
+  background-color: 3px;
+  padding: 2px;
+  margin: 1px 0;
+  border-radius: 5px;
+  /* 말줄임 */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.schedule-detail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9;
+}
+
+.schedule-box {
+  min-width: 400px;
+  min-height: 150px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+}
+.bt-close-1 {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  padding: 3px;
+  cursor: pointer;
+}

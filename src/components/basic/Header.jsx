@@ -17,34 +17,40 @@ const Header = () => {
       </Link>
       <Link
         to={"/"}
-        style={{ paddingLeft: "25px", display: "flex", alignItems: "center" }}
+        style={{ paddingLeft: "15px", display: "flex", alignItems: "center" }}
       >
         <ImTwitter size={25} />
         About
       </Link>
       <Link
         to={"/todo"}
-        style={{ paddingLeft: "25px", display: "flex", alignItems: "center" }}
+        style={{ paddingLeft: "15px", display: "flex", alignItems: "center" }}
       >
         <LuListTodo size={25} />
         Todo
       </Link>
       <Link
         to={"/calendar"}
-        style={{ paddingLeft: "25px", display: "flex", alignItems: "center" }}
+        style={{ paddingLeft: "15px", display: "flex", alignItems: "center" }}
       >
         스케쥴
       </Link>
       <Link
+        to={"/range"}
+        style={{ paddingLeft: "15px", display: "flex", alignItems: "center" }}
+      >
+        일정
+      </Link>
+      <Link
         to={"/member"}
-        style={{ paddingLeft: "25px", display: "flex", alignItems: "center" }}
+        style={{ paddingLeft: "15px", display: "flex", alignItems: "center" }}
       >
         <IoLogoReddit size={25} />
         회원가입
       </Link>
       <Link
         to={"/login"}
-        style={{ paddingLeft: "25px", display: "flex", alignItems: "center" }}
+        style={{ paddingLeft: "15px", display: "flex", alignItems: "center" }}
       >
         로그인
       </Link>
