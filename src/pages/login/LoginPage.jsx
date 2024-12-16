@@ -1,8 +1,11 @@
 import styled from "@emotion/styled";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { postLoginMember } from "../../apis/member";
+import { useContext } from "react";
+import { LoginContext } from "../../contexts/LoginContext";
 
 const ErrorDiv = styled.p`
   width: 100%;
@@ -30,6 +33,8 @@ const schema = yup.object({
 });
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { handleTodoLogin } = useContext(LoginContext);
   const {
     register,
     handleSubmit,
@@ -43,8 +48,21 @@ const LoginPage = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = data => {
-    console.log(data);
+  // 로그인 시도
+  const onSubmit = async data => {
+    try {
+      const result = await postLoginMember(data);
+      if (result.data) {
+        // 사용자가 로그인 했음을 관리
+        handleTodoLogin(false);
+        // 화면이동
+        navigate("/");
+      } else {
+        alert("로그인 대실패!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

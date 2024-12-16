@@ -3,6 +3,8 @@ import * as yup from "yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { postMember } from "../../apis/member";
+import { useNavigate } from "react-router-dom";
 
 const ErrorDiv = styled.p`
   width: 100%;
@@ -52,6 +54,7 @@ const schema = yup.object({
 //  2. schema 가 만들어지면 hookform 과 연결 (resolver)
 
 function Join() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -81,10 +84,22 @@ function Join() {
   });
 
   //   전송용 데이터
-  const onSubmit = data => {
-    console.log("전송시 데이터 ", data);
-    const sendData = { ...data, phone: data.phone.replaceAll("-", "") };
-    console.log("전송시 데이터 sendData ", sendData);
+  const onSubmit = async data => {
+    try {
+      // 회원가입시 보낼 데이터
+      const sendData = { ...data, phone: data.phone.replaceAll("-", "") };
+      // axios 보내기
+      const result = await postMember(sendData);
+      if (result.data) {
+        // 로그인창으로 이동
+        navigate("/login");
+      } else {
+        // 회원가입 다시 시도하도록 유도
+        alert("회원가입을 다시 시도하세요 :(");
+      }
+    } catch (error) {
+      console.log("회원가입 대실패", error);
+    }
   };
 
   useEffect(() => {

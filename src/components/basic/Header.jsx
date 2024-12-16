@@ -45,6 +45,7 @@ const Header = () => {
         to={"/member"}
         style={{ paddingLeft: "15px", display: "flex", alignItems: "center" }}
       >
+        <Link to="/full">스케쥴러</Link>
         <IoLogoReddit size={25} />
         회원가입
       </Link>
